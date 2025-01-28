@@ -22,18 +22,21 @@ int main() {
     int game_over = 0;
     pos** board = 0;
     size bsize;
-    Vector2 base_pos = {10., 10.};
+    Vector2 base_pos = {10., 50.};
 
+    
     Texture2D tiles = LoadTexture("sprites/tiles.png");
     Texture2D numbers = LoadTexture("sprites/numbers.png");
     Texture2D faces = LoadTexture("sprites/faces.png");
 
     choose_board(&board, &bsize, &screen_height, &screen_width);
-    print_board(board, &bsize);
+    //print_board(board, &bsize);
 
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
+
+        DrawText("Lelle gjorde en minesweeper klon", 10, 10, 25, BLACK);
 
         if (!game_over) {
             Vector2 mouse_pos = GetMousePosition();

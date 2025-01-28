@@ -26,7 +26,7 @@ void populate_bombs(size board_type, pos** board) {
     for (int i = 0; i < board_type.bombs;) {
         pos bomb = {rand() % board_type.x, rand() % board_type.y, 1, 0, 0, 0};
 
-        printf("%d %d\n", board[bomb.y][bomb.x].x, board[bomb.y][bomb.x].y);
+        //printf("%d %d\n", board[bomb.y][bomb.x].x, board[bomb.y][bomb.x].y);
         if (!(comp_pos(&board[bomb.y][bomb.x], &bomb))) {
             continue;
         }
@@ -53,7 +53,7 @@ pos** generate_board(size board_type) {
     
     populate_bombs(board_type, board);
 
-    printf("Bombs: %d\n", board_type.bombs);
+    //printf("Bombs: %d\n", board_type.bombs);
     
     return board;
 }
