@@ -1,5 +1,7 @@
 //#include "board.c"
-#include "mgui.c"
+#include "mgui.h"
+#include "raylib.h"
+#include "board.h"
 
 //#include <raylib.h>
 //#define RAYGUI_IMPLEMENTATION
@@ -7,32 +9,42 @@
 
 int main() {
     int board_choice;
-    //printf("%s", "Enter minefield size:\n1: Beginner\n2: Intermediate\n3: Expert\n");
-    //scanf("%d", &board_choice);
 
-    /*if (!(board_choice > 0 && board_choice < 4)) {
-        printf("%s", "Not a valid board!\n");
-        return -1;
-    }
-    const size board_type = sizes[board_choice-1];
-    
-    printf("%s%d\n", "Chosen field: ", board_choice);
-    
-    pos** board = generate_board(board_type);
-    //print_board(board, board_type);*/
-
-    int width = 1600;
-    int height = 800;
-    InitWindow(width, height, "raygui - controls test suite");
+    int screen_width = 1600;
+    int screen_height = 800;
+    InitWindow(screen_width, screen_height, "Lelles minesweeper magi :D");
     SetTargetFPS(60);
+    SetTraceLogLevel(LOG_ERROR); 
 
     int prompt_size = 1;
     int is_started = 0;
+    float size_mul = 2.2;
     pos** board = 0;
     size bsize;
+    Vector2 base_pos = {10., 10.};
 
-    choose_board(board, &bsize, &height, &width);
+    Texture2D tiles = LoadTexture("sprites/tiles.png");
+    Texture2D numbers = LoadTexture("sprites/numbers.png");
+    Texture2D faces = LoadTexture("sprites/faces.png");
 
+    choose_board(&board, &bsize, &screen_height, &screen_width);
+    print_board(board, &bsize);
+
+    while (!WindowShouldClose()) {
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+
+        Vector2 mouse_pos = GetMousePosition();
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+            dig(board, &bsize, 1, (int) (mouse_pos.x - base_pos.x) / 16./size_mul, (int) (mouse_pos.y - base_pos.y) / 16./size_mul);
+        }
+        if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)) {
+            dig(board, &bsize, 0, (int) (mouse_pos.x - base_pos.x) / 16./size_mul, (int) (mouse_pos.y - base_pos.y) / 16./size_mul);
+        }
+        draw_board(board, &bsize, base_pos.x, base_pos.y, size_mul, &tiles);
+        
+        EndDrawing();
+    }
 
     return 0;
 }
