@@ -10,6 +10,7 @@ typedef struct {
     int is_bomb;
     int is_discovered;
     int is_flagged;
+    int is_exploded;
 } pos;
 
 #endif

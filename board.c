@@ -24,7 +24,7 @@ int comp_pos(pos* a, pos* b) {
 void populate_bombs(size board_type, pos** board) {
     srand(time(NULL));
     for (int i = 0; i < board_type.bombs;) {
-        pos bomb = {rand() % board_type.x, rand() % board_type.y, 1, 0, 0};
+        pos bomb = {rand() % board_type.x, rand() % board_type.y, 1, 0, 0, 0};
 
         printf("%d %d\n", board[bomb.y][bomb.x].x, board[bomb.y][bomb.x].y);
         if (!(comp_pos(&board[bomb.y][bomb.x], &bomb))) {
@@ -76,21 +76,29 @@ int surround_bombs(pos** board, size* board_size, int x, int y) {
 /// mouse_click is 1 for left click and 0 for right click.
 /// Returns 1 if a bomb was dug.
 int dig(pos** board, size* board_size, int mouse_click, int x, int y) {
-    printf("x: %d, y: %d\n", x, y);
+    //printf("x: %d, y: %d\n", x, y);
     if (x < 0 || x >= board_size -> x || y < 0 || y >= board_size -> y) {
+        return 0;
+    }
+    if (board[y][x].is_discovered || board[y][x].is_flagged) {
         return 0;
     }
 
     if (mouse_click) {
         board[y][x].is_discovered = 1;
         if (board[y][x].is_bomb && !board[y][x].is_flagged) {
+            board[y][x].is_exploded = 1;
             return 1;
         }
         if (surround_bombs(board, board_size, x, y) == 0) {
-            //dig(board, board_size, mouse_click, x+1, y);
+            dig(board, board_size, mouse_click, x+1, y);
             dig(board, board_size, mouse_click, x-1, y);
-            //dig(board, board_size, mouse_click, x, y+1);
-            //dig(board, board_size, mouse_click, x, y-1);
+            dig(board, board_size, mouse_click, x, y+1);
+            dig(board, board_size, mouse_click, x, y-1);
+            dig(board, board_size, mouse_click, x+1, y+1);
+            dig(board, board_size, mouse_click, x+1, y-1);
+            dig(board, board_size, mouse_click, x-1, y+1);
+            dig(board, board_size, mouse_click, x-1, y-1);
         }
     } else {
         if (!board[y][x].is_discovered) {

@@ -62,7 +62,7 @@ Texture2D splice_tile(Texture2D* tiles, int index) {
     return tex;
 }
 
-Texture2D* draw_board(pos** board, size* board_type, float top_left_x, float top_left_y, float size_mul, Texture2D* tiles) {
+Texture2D* draw_board(pos** board, size* board_type, float top_left_x, float top_left_y, float size_mul, Texture2D* tiles, int game_over) {
     Texture2D* ret_ptr = malloc(sizeof(Texture2D) * board_type->x * board_type->y);
     for (int y = 0; y < (board_type->y); y++) {
         for (int x = 0; x < (board_type->x); x++) {           
@@ -77,7 +77,11 @@ Texture2D* draw_board(pos** board, size* board_type, float top_left_x, float top
                         texture = splice_tile(tiles, 1);
                     }
                 } else {
-                    texture = splice_tile(tiles, 5);
+                    if (board[y][x].is_exploded) {
+                        texture = splice_tile(tiles, 6);
+                    } else {
+                        texture = splice_tile(tiles, 5);
+                    }
                 }
             } else {
                 if (!board[y][x].is_flagged) {
