@@ -41,9 +41,12 @@ int main() {
         if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)) {
             dig(board, &bsize, 0, (int) (mouse_pos.x - base_pos.x) / 16./size_mul, (int) (mouse_pos.y - base_pos.y) / 16./size_mul);
         }
-        draw_board(board, &bsize, base_pos.x, base_pos.y, size_mul, &tiles);
+        Texture2D* clear = draw_board(board, &bsize, base_pos.x, base_pos.y, size_mul, &tiles);
         
         EndDrawing();
+        for (int i = 0; i < bsize.x * bsize.y; i++) {
+            UnloadTexture(clear[i]);
+        }
     }
 
     return 0;

@@ -62,7 +62,8 @@ Texture2D splice_tile(Texture2D* tiles, int index) {
     return tex;
 }
 
-void draw_board(pos** board, size* board_type, float top_left_x, float top_left_y, float size_mul, Texture2D* tiles) {
+Texture2D* draw_board(pos** board, size* board_type, float top_left_x, float top_left_y, float size_mul, Texture2D* tiles) {
+    Texture2D* ret_ptr = malloc(sizeof(Texture2D) * board_type->x * board_type->y);
     for (int y = 0; y < (board_type->y); y++) {
         for (int x = 0; x < (board_type->x); x++) {           
             Texture2D texture;// = {0, 0, 0, 0, 0};
@@ -92,8 +93,9 @@ void draw_board(pos** board, size* board_type, float top_left_x, float top_left_
                 size_mul, 
                 WHITE
             );
-            //UnloadTexture(texture);
+            ret_ptr[x + board_type->x * y] = texture;
         }
     }
+    return ret_ptr;
 }
 
