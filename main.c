@@ -35,12 +35,14 @@ int main() {
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        Vector2 mouse_pos = GetMousePosition();
-        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-            dig(board, &bsize, 1, (int) (mouse_pos.x - base_pos.x) / 16./size_mul, (int) (mouse_pos.y - base_pos.y) / 16./size_mul);
-        }
-        if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)) {
-            dig(board, &bsize, 0, (int) (mouse_pos.x - base_pos.x) / 16./size_mul, (int) (mouse_pos.y - base_pos.y) / 16./size_mul);
+        if (!game_over) {
+            Vector2 mouse_pos = GetMousePosition();
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                game_over = dig(board, &bsize,  1, (int) (mouse_pos.x - base_pos.x) / 16./size_mul, (int) (mouse_pos.y - base_pos.y) / 16./size_mul);
+            }   
+            if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)) {
+                game_over = dig(board, &bsize, 0, (int) (mouse_pos.x - base_pos.x) / 16./size_mul, (int) (mouse_pos.y - base_pos.y) / 16./size_mul);
+            }
         }
         Texture2D* clear = draw_board(board, &bsize, base_pos.x, base_pos.y, size_mul, &tiles, game_over);
         

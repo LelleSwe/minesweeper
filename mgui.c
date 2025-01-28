@@ -77,17 +77,31 @@ Texture2D* draw_board(pos** board, size* board_type, float top_left_x, float top
                         texture = splice_tile(tiles, 1);
                     }
                 } else {
-                    if (board[y][x].is_exploded) {
-                        texture = splice_tile(tiles, 6);
+                    if (game_over) {
+                        if (board[y][x].is_exploded) {
+                            texture = splice_tile(tiles, 6);
+                        } else {
+                            texture = splice_tile(tiles, 5);
+                        }
                     } else {
                         texture = splice_tile(tiles, 5);
                     }
                 }
             } else {
-                if (!board[y][x].is_flagged) {
-                    texture = splice_tile(tiles, 0);    
+                if (!game_over) {
+                    if (!board[y][x].is_flagged) {
+                        texture = splice_tile(tiles, 0);    
+                    } else {
+                        texture = splice_tile(tiles, 2);
+                    }
                 } else {
-                    texture = splice_tile(tiles, 2);
+                    if (board[y][x].is_bomb && !board[y][x].is_exploded) {
+                        texture = splice_tile(tiles, 5);
+                    } else if (board[y][x].is_bomb && board[y][x].is_exploded) {
+                        texture = splice_tile(tiles, 6);   
+                    } else {
+                        texture = splice_tile(tiles, 0);
+                    }
                 }
             }
             DrawTextureEx(
