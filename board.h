@@ -37,3 +37,4 @@ extern const size sizes[3];
 pos** generate_board(size board_type);
 int surround_bombs(pos** board, size* board_size, int x, int y);
 int dig(pos** board, size* board_size, int mouse_click, int x, int y);
+int check_victory(pos** board, size* board_size);

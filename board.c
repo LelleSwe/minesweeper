@@ -107,3 +107,14 @@ int dig(pos** board, size* board_size, int mouse_click, int x, int y) {
     }
     return 0;
 }
+
+int check_victory(pos** board, size* board_size) {
+    for (int x = 0; x < board_size->x; x++) {
+        for (int y = 0; y < board_size->y; y++) {
+            if (!board[y][x].is_bomb && !board[y][x].is_discovered) {
+                return 0;
+            }
+        }
+    }
+    return 1;
+}

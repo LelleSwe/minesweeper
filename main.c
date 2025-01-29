@@ -20,6 +20,7 @@ int main() {
     int is_started = 0;
     float size_mul = 2.2;
     int game_over = 0;
+    int victory = 0;
     pos** board = 0;
     size bsize;
     Vector2 base_pos = {10., 50.};
@@ -45,6 +46,10 @@ int main() {
             }   
             if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)) {
                 game_over = dig(board, &bsize, 0, (int) (mouse_pos.x - base_pos.x) / 16./size_mul, (int) (mouse_pos.y - base_pos.y) / 16./size_mul);
+            }
+            victory = check_victory(board, &bsize);
+            if (victory) {
+                game_over = 1;
             }
         }
         Texture2D* clear = draw_board(board, &bsize, base_pos.x, base_pos.y, size_mul, &tiles, game_over);
